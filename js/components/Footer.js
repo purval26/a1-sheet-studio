@@ -3,123 +3,70 @@ import { CREATOR_CREDITS } from '../constants.js';
 
 /**
  * Reusable Creator Attribution Footer Component
- * Displays: "An idea by Tanish · Built by Purval" with clickable Instagram links.
+ * Monochromatic text line with inline Instagram links and icons before names:
+ * "An idea by [IG] Tanish · Built by [IG] Purval"
+ * Dimensions and extra buttons removed.
  */
 export function renderFooter(container, options = {}) {
-  const { variant = 'standard', onReplayIntro = null } = options;
+  const { variant = 'standard' } = options;
   const isCompact = variant === 'compact';
 
   if (!container) return;
 
+  const attributionHtml = `
+    <span>An idea by</span>
+    <a 
+      href="${CREATOR_CREDITS.tanish.instagram}" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="inline-flex items-center gap-1 font-semibold text-[var(--text-main)] hover:underline decoration-zinc-500 underline-offset-4 transition-colors group mx-1"
+      title="Tanish on Instagram (${CREATOR_CREDITS.tanish.handle})"
+    >
+      <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
+      <span>${CREATOR_CREDITS.tanish.name}</span>
+    </a>
+    <span class="mx-1 text-[var(--text-dim)]">·</span>
+    <span>Built by</span>
+    <a 
+      href="${CREATOR_CREDITS.purval.instagram}" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="inline-flex items-center gap-1 font-semibold text-[var(--text-main)] hover:underline decoration-zinc-500 underline-offset-4 transition-colors group mx-1"
+      title="Purval on Instagram (${CREATOR_CREDITS.purval.handle})"
+    >
+      <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
+      <span>${CREATOR_CREDITS.purval.name}</span>
+    </a>
+  `;
+
   if (isCompact) {
-    // Compact variant for sidebar / controls bottom
+    // Compact variant for sidebar controls bottom
     container.innerHTML = `
-      <div class="pt-5 pb-2 border-t border-[var(--border-subtle)] text-center space-y-2 select-none">
-        <p class="text-xs text-[var(--text-muted)] font-medium tracking-tight">
-          ${CREATOR_CREDITS.attributionText}
+      <div class="pt-5 pb-2 border-t border-[var(--border-subtle)] text-center select-none">
+        <p class="text-xs text-[var(--text-muted)] tracking-tight flex items-center justify-center flex-wrap">
+          ${attributionHtml}
         </p>
-
-        <div class="flex items-center justify-center gap-2 text-[11px]">
-          <a 
-            href="${CREATOR_CREDITS.tanish.instagram}" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 group touch-manipulation"
-            title="Tanish on Instagram (${CREATOR_CREDITS.tanish.handle})"
-          >
-            <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
-            <span class="font-medium">${CREATOR_CREDITS.tanish.name}</span>
-          </a>
-
-          <a 
-            href="${CREATOR_CREDITS.purval.instagram}" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 group touch-manipulation"
-            title="Purval on Instagram (${CREATOR_CREDITS.purval.handle})"
-          >
-            <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
-            <span class="font-medium">${CREATOR_CREDITS.purval.name}</span>
-          </a>
-
-          ${onReplayIntro ? `
-            <button 
-              type="button" 
-              class="replay-intro-btn inline-flex items-center gap-1 px-2 py-1 rounded-full text-[10px] text-[var(--text-dim)] hover:text-[var(--text-main)] hover:bg-[var(--bg-tertiary)] transition touch-manipulation"
-              title="Replay Cinematic Introduction"
-            >
-              ${Icons.Rotate} <span>Story</span>
-            </button>
-          ` : ''}
-        </div>
       </div>
     `;
   } else {
-    // Full width standard variant for landing page / main pages
+    // Standard full-width variant for landing page
     container.innerHTML = `
       <footer class="w-full border-t border-[var(--border-subtle)] py-6 px-4 sm:px-6 bg-[var(--bg-secondary)]/60 text-xs transition-colors duration-200 select-none">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           
-          <!-- App Info & Dimensions -->
-          <div class="text-[var(--text-dim)] flex items-center gap-2 text-center sm:text-left">
+          <!-- Minimal App Brand (Dimensions Removed) -->
+          <div class="text-[var(--text-dim)] flex items-center gap-2">
             <span class="w-2 h-2 rounded-full bg-[var(--accent)] opacity-80"></span>
             <span class="font-medium text-[var(--text-muted)]">A1 Sheet Studio</span>
-            <span class="text-[var(--text-dim)]">•</span>
-            <span>Landscape 841 × 594 mm Presentation Engine</span>
           </div>
 
-          <!-- Creator Attribution & Clickable Instagram Links -->
-          <div class="flex flex-col sm:flex-row items-center gap-2 sm:gap-3">
-            <span class="text-[var(--text-muted)] font-medium tracking-tight">
-              ${CREATOR_CREDITS.attributionText}
-            </span>
-
-            <div class="flex items-center gap-2">
-              <a 
-                href="${CREATOR_CREDITS.tanish.instagram}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 text-[11px] group touch-manipulation"
-                title="Tanish on Instagram (${CREATOR_CREDITS.tanish.handle})"
-              >
-                <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
-                <span class="font-medium">${CREATOR_CREDITS.tanish.name}</span>
-              </a>
-
-              <a 
-                href="${CREATOR_CREDITS.purval.instagram}" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 text-[11px] group touch-manipulation"
-                title="Purval on Instagram (${CREATOR_CREDITS.purval.handle})"
-              >
-                <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
-                <span class="font-medium">${CREATOR_CREDITS.purval.name}</span>
-              </a>
-
-              ${onReplayIntro ? `
-                <button 
-                  type="button" 
-                  class="replay-intro-btn inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-dim)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] transition text-[11px] touch-manipulation"
-                  title="Replay Cinematic Introduction"
-                >
-                  ${Icons.Rotate} <span>Story</span>
-                </button>
-              ` : ''}
-            </div>
+          <!-- Attribution Line with Inline Instagram Links and Icons -->
+          <div class="text-xs text-[var(--text-muted)] tracking-tight flex items-center justify-center sm:justify-end flex-wrap">
+            ${attributionHtml}
           </div>
 
         </div>
       </footer>
     `;
-  }
-
-  if (onReplayIntro) {
-    container.querySelectorAll('.replay-intro-btn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        onReplayIntro();
-      });
-    });
   }
 }
