@@ -40,7 +40,7 @@ export function renderLandingPage(container, { onOpenStudio, onToggleTheme, them
       <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 flex-1 flex flex-col justify-center">
         <div class="text-center max-w-3xl mx-auto space-y-4 sm:space-y-6">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium bg-[var(--bg-tertiary)] border border-[var(--border-subtle)] text-[var(--text-muted)]">
-            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span class="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse"></span>
             Professional Architectural Presentation Engine
           </div>
 

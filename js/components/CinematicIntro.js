@@ -1,102 +1,79 @@
 import { CREATOR_CREDITS } from '../constants.js';
-import { Icons } from './UIComponents.js';
 
 /**
  * Cinematic Opening Animation Component
- * A full-viewport introductory sequence communicating creator contributions.
- * Appears only on first visit (tracked in localStorage), with Skip available after credits appear.
+ * Pure Black & White minimal aesthetic matching the application design system.
+ * Appears every time on visit, with bold prominent name highlights.
  */
 export function playCinematicIntro(options = {}) {
-  const { force = false, onComplete = () => {} } = options;
+  const { onComplete = () => {} } = options;
 
-  // 1. Check if user already saw the intro
-  const hasSeen = localStorage.getItem(CREATOR_CREDITS.storageKey);
-  if (hasSeen === 'true' && !force) {
-    onComplete();
-    return;
-  }
-
-  // 2. Accessibility: Check for prefers-reduced-motion
+  // Accessibility check for reduced motion
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReducedMotion && !force) {
-    try {
-      localStorage.setItem(CREATOR_CREDITS.storageKey, 'true');
-    } catch (_) {}
+  if (prefersReducedMotion) {
     onComplete();
     return;
   }
 
-  // 3. Create Intro Overlay Element
+  // Remove existing overlay if any
   let overlay = document.getElementById('cinematic-intro-overlay');
   if (overlay) overlay.remove();
 
+  // Create Pure Black & White Intro Overlay
   overlay = document.createElement('div');
   overlay.id = 'cinematic-intro-overlay';
   overlay.className = 'fixed inset-0 z-[100] flex flex-col items-center justify-between text-white select-none transition-opacity duration-700 opacity-0 overflow-hidden';
-  overlay.style.background = 'radial-gradient(circle at 50% 45%, #070e24 0%, #03060f 65%, #010206 100%)';
+  overlay.style.background = 'radial-gradient(circle at 50% 50%, #0c0c0e 0%, #000000 80%)';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', 'Creator Introduction');
 
   overlay.innerHTML = `
-    <!-- Top Bar: Subtle Branding & Skip Action -->
+    <!-- Top Bar: Clean Monochromatic Branding (No Skip Button) -->
     <div class="w-full max-w-5xl px-6 py-6 sm:py-8 flex items-center justify-between z-20">
-      <div class="flex items-center gap-2.5 opacity-60">
+      <div class="flex items-center gap-2.5 opacity-70">
         <span class="w-6 h-6 rounded bg-white text-black font-extrabold flex items-center justify-center text-xs">A1</span>
         <span class="font-mono text-[11px] tracking-widest uppercase text-zinc-400">Sheet Studio</span>
       </div>
 
-      <!-- Skip Button: Hidden until creator credits appear in Scene 3 -->
-      <button 
-        id="intro-skip-btn" 
-        type="button" 
-        class="text-xs px-3.5 py-1.5 rounded-full border border-white/10 bg-white/5 hover:bg-white/15 hover:border-white/25 text-zinc-300 hover:text-white transition-all duration-300 backdrop-blur-md opacity-0 pointer-events-none touch-manipulation flex items-center gap-1.5"
-        title="Skip intro to Studio"
-      >
-        <span>Skip</span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"/><line x1="19" x2="19" y1="5" y2="19"/></svg>
-      </button>
+      <div class="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
+        841 × 594 mm
+      </div>
     </div>
 
-    <!-- Center Stage: Cinematic Text Display -->
-    <div class="flex-1 w-full max-w-3xl px-6 flex flex-col items-center justify-center text-center relative z-10 -mt-8">
+    <!-- Center Stage: Cinematic Monochromatic Typography -->
+    <div class="flex-1 w-full max-w-3xl px-6 flex flex-col items-center justify-center text-center relative z-10 -mt-6">
       
-      <!-- Ambient Backlight Glow -->
-      <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-blue-600/10 blur-[90px] pointer-events-none -z-10"></div>
+      <!-- Subtle Ambient White Glow (No Blue) -->
+      <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/[0.04] blur-[100px] pointer-events-none -z-10"></div>
 
       <!-- Scene Stage Container -->
-      <div id="intro-scene-stage" class="min-h-[140px] sm:min-h-[160px] flex items-center justify-center w-full">
+      <div id="intro-scene-stage" class="min-h-[180px] sm:min-h-[220px] flex items-center justify-center w-full">
         <!-- Scenes are dynamically mounted with smooth fade/scale transitions -->
       </div>
 
     </div>
 
-    <!-- Bottom Attribution Footnote -->
-    <div class="w-full max-w-5xl px-6 py-6 sm:py-8 flex flex-col sm:flex-row items-center justify-between text-[11px] text-zinc-500 z-20 gap-2">
-      <div class="tracking-wide">
-        Architectural Sheet Design Engine
+    <!-- Bottom Attribution Footnote (No Progress Bar) -->
+    <div class="w-full max-w-5xl px-6 py-6 sm:py-8 flex items-center justify-between text-[11px] text-zinc-600 z-20">
+      <div class="tracking-widest uppercase font-mono text-[10px]">
+        Architectural Design Studio
       </div>
-      <div id="intro-progress-bar-container" class="w-32 h-[2px] bg-white/10 rounded-full overflow-hidden">
-        <div id="intro-progress-bar" class="h-full bg-blue-400 transition-all duration-100 ease-linear w-0"></div>
-      </div>
-      <div class="font-mono text-[10px] text-zinc-500">
-        841 × 594 mm
+      <div class="font-mono text-[10px] tracking-widest uppercase">
+        Vector PDF Engine
       </div>
     </div>
   `;
 
   document.body.appendChild(overlay);
 
-  // Trigger initial fade-in
+  // Trigger initial smooth fade-in
   requestAnimationFrame(() => {
     overlay.classList.remove('opacity-0');
     overlay.classList.add('opacity-100');
   });
 
   const stage = overlay.querySelector('#intro-scene-stage');
-  const skipBtn = overlay.querySelector('#intro-skip-btn');
-  const progressBar = overlay.querySelector('#intro-progress-bar');
-
   let isDestroyed = false;
   let activeTimeouts = [];
 
@@ -107,10 +84,6 @@ export function playCinematicIntro(options = {}) {
     activeTimeouts.forEach((t) => clearTimeout(t));
     activeTimeouts = [];
 
-    try {
-      localStorage.setItem(CREATOR_CREDITS.storageKey, 'true');
-    } catch (_) {}
-
     overlay.classList.remove('opacity-100');
     overlay.classList.add('opacity-0');
     overlay.style.pointerEvents = 'none';
@@ -118,104 +91,84 @@ export function playCinematicIntro(options = {}) {
     setTimeout(() => {
       overlay.remove();
       onComplete();
-    }, 700);
+    }, 650);
   };
 
-  skipBtn.addEventListener('click', (e) => {
-    e.preventDefault();
-    cleanup();
-  });
-
-  // Scene Definition List
+  // Black and White Scene Definitions with Bold Prominent Names
   const scenes = [
     // Scene 1: The Problem
     {
       html: `
-        <div class="space-y-3 scene-fade-enter">
-          <p class="text-xs uppercase tracking-[0.25em] text-blue-400 font-mono font-medium">Origin</p>
-          <h2 class="text-2xl sm:text-4xl md:text-5xl font-light text-zinc-100 tracking-tight leading-snug">
-            Every useful tool starts with a <span class="font-semibold text-white drop-shadow-[0_0_25px_rgba(255,255,255,0.35)]">problem</span>.
+        <div class="space-y-4 scene-fade-enter">
+          <p class="text-[11px] sm:text-xs uppercase tracking-[0.3em] text-zinc-500 font-mono">Origin</p>
+          <h2 class="text-2xl sm:text-4xl md:text-5xl font-light text-zinc-300 tracking-tight leading-snug">
+            Every useful tool starts with a <span class="font-bold text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.6)]">problem</span>.
           </h2>
         </div>
       `,
-      duration: 1800,
+      duration: 1650,
     },
 
-    // Scene 2: Tanish (Idea & Originator)
+    // Scene 2: Tanish - Bold Prominent Standing Out Typography
     {
       html: `
-        <div class="space-y-3 scene-fade-enter">
-          <p class="text-xs uppercase tracking-[0.25em] text-blue-400 font-mono font-medium">Concept & Vision</p>
-          <h2 class="text-2xl sm:text-4xl md:text-5xl font-light text-zinc-200 tracking-tight leading-snug">
-            An idea sparked by <span class="font-semibold text-white drop-shadow-[0_0_30px_rgba(96,165,250,0.6)]">Tanish</span>.
-          </h2>
-          <p class="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto pt-1 font-normal">
-            Originator of the original problem and horizontal A1 layout concept
+        <div class="space-y-3 sm:space-y-4 scene-fade-enter">
+          <p class="text-[11px] sm:text-xs uppercase tracking-[0.3em] text-zinc-500 font-mono">Concept & Origin</p>
+          <div class="space-y-1 sm:space-y-2">
+            <span class="text-lg sm:text-2xl md:text-3xl font-light text-zinc-400 block tracking-normal">
+              An idea sparked by
+            </span>
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tight leading-none drop-shadow-[0_0_40px_rgba(255,255,255,0.8)] py-1">
+              Tanish
+            </h1>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto pt-2 font-normal leading-relaxed">
+            Originator of the original problem & horizontal A1 layout
           </p>
         </div>
       `,
-      duration: 1800,
+      duration: 1850,
     },
 
-    // Scene 3: Purval (Developer & Solution) - Enables Skip button!
+    // Scene 3: Purval - Bold Prominent Standing Out Typography
     {
       html: `
-        <div class="space-y-3 scene-fade-enter">
-          <p class="text-xs uppercase tracking-[0.25em] text-blue-400 font-mono font-medium">Architecture & Code</p>
-          <h2 class="text-2xl sm:text-4xl md:text-5xl font-light text-zinc-200 tracking-tight leading-snug">
-            A solution built by <span class="font-semibold text-white drop-shadow-[0_0_30px_rgba(96,165,250,0.6)]">Purval</span>.
-          </h2>
-          <p class="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto pt-1 font-normal">
-            Developer who engineered the vector PDF engine, collage math, and studio UI
+        <div class="space-y-3 sm:space-y-4 scene-fade-enter">
+          <p class="text-[11px] sm:text-xs uppercase tracking-[0.3em] text-zinc-500 font-mono">Development & Architecture</p>
+          <div class="space-y-1 sm:space-y-2">
+            <span class="text-lg sm:text-2xl md:text-3xl font-light text-zinc-400 block tracking-normal">
+              A solution built by
+            </span>
+            <h1 class="text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tight leading-none drop-shadow-[0_0_40px_rgba(255,255,255,0.8)] py-1">
+              Purval
+            </h1>
+          </div>
+          <p class="text-xs sm:text-sm text-zinc-400 max-w-md mx-auto pt-2 font-normal leading-relaxed">
+            Developer who solved the problem and built the tool
           </p>
         </div>
       `,
-      duration: 1800,
-      onEnter: () => {
-        // Both credits are now visible! Reveal Skip button smoothly
-        if (skipBtn) {
-          skipBtn.classList.remove('opacity-0', 'pointer-events-none');
-          skipBtn.classList.add('opacity-100', 'pointer-events-auto');
-        }
-      },
+      duration: 1850,
     },
 
     // Scene 4: Synthesis
     {
       html: `
-        <div class="space-y-3 sm:space-y-4 scene-fade-enter">
-          <p class="text-xs uppercase tracking-[0.25em] text-blue-400 font-mono font-medium">Crafted with Purpose</p>
+        <div class="space-y-4 scene-fade-enter">
+          <p class="text-[11px] sm:text-xs uppercase tracking-[0.3em] text-zinc-500 font-mono">Crafted with Purpose</p>
           <h2 class="text-2xl sm:text-4xl md:text-5xl font-light text-zinc-300 tracking-tight leading-snug">
             One problem. <span class="text-zinc-200">One solution.</span>
-            <span class="block mt-1 sm:mt-2 font-semibold text-white drop-shadow-[0_0_35px_rgba(255,255,255,0.45)]">
+            <span class="block mt-2 font-extrabold text-white drop-shadow-[0_0_40px_rgba(255,255,255,0.7)]">
               One useful tool.
             </span>
           </h2>
         </div>
       `,
-      duration: 1900,
+      duration: 1750,
     },
   ];
 
-  const totalDuration = scenes.reduce((acc, s) => acc + s.duration, 0);
-  let elapsedTime = 0;
-
-  // Run progress bar animation
-  const startTime = Date.now();
-  const progressInterval = setInterval(() => {
-    if (isDestroyed) {
-      clearInterval(progressInterval);
-      return;
-    }
-    const elapsed = Date.now() - startTime;
-    const pct = Math.min(100, (elapsed / totalDuration) * 100);
-    if (progressBar) progressBar.style.width = `${pct}%`;
-    if (elapsed >= totalDuration) {
-      clearInterval(progressInterval);
-    }
-  }, 50);
-
-  // Play scenes in sequence
+  // Play scenes sequentially
   function runScene(index) {
     if (isDestroyed) return;
 
@@ -227,7 +180,7 @@ export function playCinematicIntro(options = {}) {
 
     const scene = scenes[index];
 
-    // Fade out previous scene if any
+    // Fade out previous scene smoothly
     const currentSceneEl = stage.firstElementChild;
     if (currentSceneEl) {
       currentSceneEl.classList.remove('scene-fade-enter');
@@ -238,15 +191,13 @@ export function playCinematicIntro(options = {}) {
       if (isDestroyed) return;
 
       stage.innerHTML = scene.html;
-      if (scene.onEnter) scene.onEnter();
 
-      // Schedule next scene transition
       const nextTimeout = setTimeout(() => {
         runScene(index + 1);
       }, scene.duration);
 
       activeTimeouts.push(nextTimeout);
-    }, currentSceneEl ? 280 : 0);
+    }, currentSceneEl ? 260 : 0);
 
     activeTimeouts.push(switchTimeout);
   }

@@ -27,7 +27,7 @@ export function renderFooter(container, options = {}) {
             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 group touch-manipulation"
             title="Tanish on Instagram (${CREATOR_CREDITS.tanish.handle})"
           >
-            <span class="text-[var(--text-dim)] group-hover:text-pink-400 transition-colors">${Icons.Instagram}</span>
+            <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
             <span class="font-medium">${CREATOR_CREDITS.tanish.name}</span>
           </a>
 
@@ -38,7 +38,7 @@ export function renderFooter(container, options = {}) {
             class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 group touch-manipulation"
             title="Purval on Instagram (${CREATOR_CREDITS.purval.handle})"
           >
-            <span class="text-[var(--text-dim)] group-hover:text-pink-400 transition-colors">${Icons.Instagram}</span>
+            <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
             <span class="font-medium">${CREATOR_CREDITS.purval.name}</span>
           </a>
 
@@ -62,7 +62,7 @@ export function renderFooter(container, options = {}) {
           
           <!-- App Info & Dimensions -->
           <div class="text-[var(--text-dim)] flex items-center gap-2 text-center sm:text-left">
-            <span class="w-2 h-2 rounded-full bg-emerald-500/80"></span>
+            <span class="w-2 h-2 rounded-full bg-[var(--accent)] opacity-80"></span>
             <span class="font-medium text-[var(--text-muted)]">A1 Sheet Studio</span>
             <span class="text-[var(--text-dim)]">•</span>
             <span>Landscape 841 × 594 mm Presentation Engine</span>
@@ -82,7 +82,7 @@ export function renderFooter(container, options = {}) {
                 class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 text-[11px] group touch-manipulation"
                 title="Tanish on Instagram (${CREATOR_CREDITS.tanish.handle})"
               >
-                <span class="text-[var(--text-dim)] group-hover:text-pink-400 transition-colors">${Icons.Instagram}</span>
+                <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
                 <span class="font-medium">${CREATOR_CREDITS.tanish.name}</span>
               </a>
 
@@ -93,7 +93,7 @@ export function renderFooter(container, options = {}) {
                 class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[var(--bg-tertiary)] hover:bg-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] border border-[var(--border-subtle)] hover:border-[var(--border-active)] transition-all duration-150 text-[11px] group touch-manipulation"
                 title="Purval on Instagram (${CREATOR_CREDITS.purval.handle})"
               >
-                <span class="text-[var(--text-dim)] group-hover:text-pink-400 transition-colors">${Icons.Instagram}</span>
+                <span class="text-[var(--text-dim)] group-hover:text-[var(--text-main)] transition-colors">${Icons.Instagram}</span>
                 <span class="font-medium">${CREATOR_CREDITS.purval.name}</span>
               </a>
 
