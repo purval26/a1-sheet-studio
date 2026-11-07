@@ -5,8 +5,7 @@
   "description": "High-Precision A1 Landscape Architectural Presentation Sheet & Vector PDF Generator with Mosaic Collage & Dark/Light Themes",
   "scripts": {
     "start": "python3 server.py",
-    "dev": "python3 server.py",
-    "build": "echo 'Static build ready for deployment'"
+    "dev": "python3 server.py"
   },
   "keywords": [
     "a1-paper",
