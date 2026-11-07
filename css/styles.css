@@ -290,3 +290,51 @@ body {
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08);
   }
 }
+
+/* Isolated Cinematic Intro Keyframes */
+.scene-fade-enter {
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+  animation: sceneEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.scene-fade-exit {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: sceneExit 0.28s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes sceneEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.985);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+}
+
+@keyframes sceneExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-8px) scale(1.015);
+    filter: blur(3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene-fade-enter, .scene-fade-exit {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}

@@ -1,6 +1,7 @@
 import { Icons } from './UIComponents.js';
+import { renderFooter } from './Footer.js';
 
-export function renderLandingPage(container, { onOpenStudio, onToggleTheme, theme }) {
+export function renderLandingPage(container, { onOpenStudio, onToggleTheme, theme, onReplayIntro }) {
   const isDark = theme === 'dark';
 
   container.innerHTML = `
@@ -151,15 +152,19 @@ export function renderLandingPage(container, { onOpenStudio, onToggleTheme, them
         </div>
       </main>
 
-      <!-- Footer -->
-      <footer class="border-t border-[var(--border-subtle)] py-5 text-center text-xs text-[var(--text-dim)]">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <span>A1 Landscape Architectural Sheet Studio</span>
-          <span>Professional Print-Ready Vector Presentation Engine</span>
-        </div>
-      </footer>
+      <!-- Persistent Shared Creator Attribution Footer -->
+      <div id="landing-footer-slot"></div>
     </div>
   `;
+
+  // Render Reusable Footer with Creator Credits
+  const footerSlot = container.querySelector('#landing-footer-slot');
+  if (footerSlot) {
+    renderFooter(footerSlot, {
+      variant: 'standard',
+      onReplayIntro,
+    });
+  }
 
   // Attach event listeners
   const launchBtns = [

@@ -1,7 +1,8 @@
 import { Icons, createSliderControl, createSegmentedControl } from './UIComponents.js';
 import { AVAILABLE_FONTS, DETAIL_PRESETS, MOSAIC_TEMPLATES } from '../constants.js';
+import { renderFooter } from './Footer.js';
 
-export function renderSidebar(container, { state, onUpdateState }) {
+export function renderSidebar(container, { state, onUpdateState, onReplayIntro }) {
   const activeTab = container.dataset.activeTab || 'layout';
 
   container.innerHTML = `
@@ -23,12 +24,24 @@ export function renderSidebar(container, { state, onUpdateState }) {
       </div>
 
       <!-- Tab Content Area -->
-      <div class="p-3.5 sm:p-5 space-y-6 pb-24 md:pb-8 flex-1" id="sidebar-tab-content">
+      <div class="p-3.5 sm:p-5 space-y-6 pb-6 flex-1" id="sidebar-tab-content">
         <!-- Content will be injected below based on activeTab -->
       </div>
 
+      <!-- Persistent Creator Attribution in Studio View -->
+      <div class="px-4 pb-6 mt-auto" id="sidebar-footer-slot"></div>
+
     </div>
   `;
+
+  // Render Reusable Compact Footer with Creator Credits
+  const footerSlot = container.querySelector('#sidebar-footer-slot');
+  if (footerSlot) {
+    renderFooter(footerSlot, {
+      variant: 'compact',
+      onReplayIntro,
+    });
+  }
 
   // Attach tab switching logic
   const tabsContainer = container.querySelector('#sidebar-tabs');

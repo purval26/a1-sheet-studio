@@ -4,6 +4,7 @@ import { renderNavbar } from './components/Navbar.js';
 import { renderSidebar } from './components/Sidebar.js';
 import { renderSheetPreview } from './components/SheetPreview.js';
 import { generateA1Pdf } from './pdfGenerator.js';
+import { playCinematicIntro } from './components/CinematicIntro.js';
 
 class A1App {
   constructor() {
@@ -40,6 +41,9 @@ class A1App {
   init() {
     this.render();
 
+    // Check & trigger cinematic introductory animation on first visit
+    this.initCinematicIntro(false);
+
     // Resize / orientation listener
     window.addEventListener('resize', () => {
       if (this.state.activeView === 'studio') {
@@ -52,6 +56,19 @@ class A1App {
         }
       }
     });
+  }
+
+  initCinematicIntro(force = false) {
+    try {
+      playCinematicIntro({
+        force,
+        onComplete: () => {
+          // Intro completed or skipped cleanly
+        },
+      });
+    } catch (e) {
+      console.warn('Cinematic intro initialization failed:', e);
+    }
   }
 
   updateState(partialState, shouldReRenderSidebar = false) {
@@ -78,6 +95,7 @@ class A1App {
         renderSidebar(sidebarContainer, {
           state: this.state,
           onUpdateState: (p, r) => this.handleSidebarUpdate(p, r),
+          onReplayIntro: () => this.initCinematicIntro(true),
         });
       }
     }
@@ -99,6 +117,7 @@ class A1App {
         this.updateState({ activeView: 'studio', mobileViewTab: 'split' });
       },
       onToggleTheme: () => this.toggleTheme(),
+      onReplayIntro: () => this.initCinematicIntro(true),
     });
   }
 
@@ -167,6 +186,7 @@ class A1App {
       renderSidebar(sidebarEl, {
         state: this.state,
         onUpdateState: (partial, reRenderControls) => this.handleSidebarUpdate(partial, reRenderControls),
+        onReplayIntro: () => this.initCinematicIntro(true),
       });
     }
 

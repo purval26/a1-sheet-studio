@@ -91,3 +91,27 @@ export const DETAIL_PRESETS = [
   { label: 'Roll No', placeholder: 'e.g. 2026-ARCH-042' },
   { label: 'Institute', placeholder: 'Faculty of Architecture / University', isStandalone: true },
 ];
+
+// Centralized Creator Acknowledgement Configuration
+export const CREATOR_CREDITS = {
+  storageKey: 'a1_creator_intro_completed_v1',
+  tanish: {
+    name: 'Tanish',
+    role: 'Originator of the original problem and idea',
+    instagram: 'https://instagram.com/mr.gajera1010',
+    handle: '@mr.gajera1010',
+  },
+  purval: {
+    name: 'Purval',
+    role: 'Developer who solved the problem and built the tool',
+    instagram: 'https://instagram.com/rntxpurval',
+    handle: '@rntxpurval',
+  },
+  attributionText: 'An idea by Tanish · Built by Purval',
+  scenes: [
+    { id: 1, text: 'Every useful tool starts with a problem.', highlight: 'problem', duration: 1800 },
+    { id: 2, text: 'An idea sparked by Tanish.', highlight: 'Tanish', name: 'Tanish', duration: 1700 },
+    { id: 3, text: 'A solution built by Purval.', highlight: 'Purval', name: 'Purval', duration: 1700 },
+    { id: 4, text: 'One problem. One solution. One useful tool.', highlight: 'One useful tool.', duration: 1900 },
+  ],
+};
