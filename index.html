@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>A1 Landscape Architectural Sheet Studio & PDF Generator</title>
+  <meta name="description" content="Generate high-resolution landscape A1 architectural presentation sheets and vector PDFs with binding margins, dual title block, and dynamic mosaic & photo collages.">
+
+  <!-- Immediate Theme Initializer (prevents flicker) -->
+  <script>
+    (function() {
+      const theme = localStorage.getItem('a1_theme') || 'dark';
+      document.documentElement.classList.remove('dark', 'light');
+      document.documentElement.classList.add(theme);
+      document.documentElement.setAttribute('data-theme', theme);
+    })();
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            zinc: {
+              850: '#1f1f23',
+              950: '#09090b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Local PDF-Lib Vector Engine -->
+  <script src="libs/pdf-lib.min.js"></script>
+
+  <!-- Custom Sleek Minimalist Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-[var(--bg-primary)] text-[var(--text-main)] antialiased transition-colors duration-200">
+
+  <!-- Application Main Mount Point -->
+  <div id="app-root" class="min-h-screen"></div>
+
+  <!-- Toast Notification Stack -->
+  <div id="toast-root" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 max-w-sm pointer-events-none"></div>
+
+  <!-- Core Application Module -->
+  <script type="module" src="js/app.js"></script>
+
+</body>
+</html>

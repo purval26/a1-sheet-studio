@@ -1,0 +1,20 @@
+{
+  "name": "a1-landscape-pdf-studio",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "High-Precision A1 Landscape Architectural Presentation Sheet & Vector PDF Generator with Mosaic Collage & Dark/Light Themes",
+  "scripts": {
+    "start": "python3 server.py",
+    "dev": "python3 server.py",
+    "build": "echo 'Static build ready for deployment'"
+  },
+  "keywords": [
+    "a1-paper",
+    "architectural-sheet",
+    "pdf-generator",
+    "vector-pdf",
+    "mosaic-collage"
+  ],
+  "author": "",
+  "license": "MIT"
+}
