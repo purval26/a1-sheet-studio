@@ -1,9 +1,9 @@
-import { CREATOR_CREDITS } from '../constants.js';
-
 /**
  * Cinematic Opening Animation Component
- * Pure Black & White minimal aesthetic matching the application design system.
- * Appears every time on visit, with bold prominent name highlights.
+ * Pure Monochromatic Black & White.
+ * - No top or bottom extra text (center content only).
+ * - Plays on every visit with prominent, bold name highlights.
+ * - Ends with the iconic A1 logo appearing in center and morphing smoothly into the navbar logo.
  */
 export function playCinematicIntro(options = {}) {
   const { onComplete = () => {} } = options;
@@ -19,49 +19,27 @@ export function playCinematicIntro(options = {}) {
   let overlay = document.getElementById('cinematic-intro-overlay');
   if (overlay) overlay.remove();
 
-  // Create Pure Black & White Intro Overlay
+  // Create Pure Black Intro Overlay with ONLY Center Content
   overlay = document.createElement('div');
   overlay.id = 'cinematic-intro-overlay';
-  overlay.className = 'fixed inset-0 z-[100] flex flex-col items-center justify-between text-white select-none transition-opacity duration-700 opacity-0 overflow-hidden';
-  overlay.style.background = 'radial-gradient(circle at 50% 50%, #0c0c0e 0%, #000000 80%)';
+  overlay.className = 'fixed inset-0 z-[100] flex items-center justify-center text-white select-none transition-opacity duration-500 opacity-0 overflow-hidden bg-black';
+  overlay.style.background = '#000000';
   overlay.setAttribute('role', 'dialog');
   overlay.setAttribute('aria-modal', 'true');
   overlay.setAttribute('aria-label', 'Creator Introduction');
 
   overlay.innerHTML = `
-    <!-- Top Bar: Clean Monochromatic Branding (No Skip Button) -->
-    <div class="w-full max-w-5xl px-6 py-6 sm:py-8 flex items-center justify-between z-20">
-      <div class="flex items-center gap-2.5 opacity-70">
-        <span class="w-6 h-6 rounded bg-white text-black font-extrabold flex items-center justify-center text-xs">A1</span>
-        <span class="font-mono text-[11px] tracking-widest uppercase text-zinc-400">Sheet Studio</span>
-      </div>
-
-      <div class="font-mono text-[11px] text-zinc-500 uppercase tracking-widest">
-        841 × 594 mm
-      </div>
-    </div>
-
-    <!-- Center Stage: Cinematic Monochromatic Typography -->
-    <div class="flex-1 w-full max-w-3xl px-6 flex flex-col items-center justify-center text-center relative z-10 -mt-6">
+    <!-- Center Stage: Pure Monochromatic Content Only (No Top or Bottom Text) -->
+    <div class="relative w-full max-w-3xl px-6 flex flex-col items-center justify-center text-center">
       
-      <!-- Subtle Ambient White Glow (No Blue) -->
-      <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/[0.04] blur-[100px] pointer-events-none -z-10"></div>
+      <!-- Subtle Ambient White Glow -->
+      <div class="absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-white/[0.03] blur-[120px] pointer-events-none -z-10"></div>
 
       <!-- Scene Stage Container -->
-      <div id="intro-scene-stage" class="min-h-[180px] sm:min-h-[220px] flex items-center justify-center w-full">
-        <!-- Scenes are dynamically mounted with smooth fade/scale transitions -->
+      <div id="intro-scene-stage" class="min-h-[220px] sm:min-h-[260px] flex items-center justify-center w-full">
+        <!-- Scenes are dynamically mounted -->
       </div>
 
-    </div>
-
-    <!-- Bottom Attribution Footnote (No Progress Bar) -->
-    <div class="w-full max-w-5xl px-6 py-6 sm:py-8 flex items-center justify-between text-[11px] text-zinc-600 z-20">
-      <div class="tracking-widest uppercase font-mono text-[10px]">
-        Architectural Design Studio
-      </div>
-      <div class="font-mono text-[10px] tracking-widest uppercase">
-        Vector PDF Engine
-      </div>
     </div>
   `;
 
@@ -91,7 +69,7 @@ export function playCinematicIntro(options = {}) {
     setTimeout(() => {
       overlay.remove();
       onComplete();
-    }, 650);
+    }, 500);
   };
 
   // Black and White Scene Definitions with Bold Prominent Names
@@ -109,7 +87,7 @@ export function playCinematicIntro(options = {}) {
       duration: 1650,
     },
 
-    // Scene 2: Tanish - Bold Prominent Standing Out Typography
+    // Scene 2: Tanish - Bold Prominent Typography
     {
       html: `
         <div class="space-y-3 sm:space-y-4 scene-fade-enter">
@@ -130,7 +108,7 @@ export function playCinematicIntro(options = {}) {
       duration: 1850,
     },
 
-    // Scene 3: Purval - Bold Prominent Standing Out Typography
+    // Scene 3: Purval - Bold Prominent Typography
     {
       html: `
         <div class="space-y-3 sm:space-y-4 scene-fade-enter">
@@ -173,8 +151,8 @@ export function playCinematicIntro(options = {}) {
     if (isDestroyed) return;
 
     if (index >= scenes.length) {
-      // Scene 5: Transition smoothly into the actual application
-      cleanup();
+      // Final Scene: Reveal A1 Logo & Morph into Navbar Logo!
+      triggerA1LogoMorph();
       return;
     }
 
@@ -200,6 +178,97 @@ export function playCinematicIntro(options = {}) {
     }, currentSceneEl ? 260 : 0);
 
     activeTimeouts.push(switchTimeout);
+  }
+
+  /**
+   * Final Cinematic Transition:
+   * 1. A1 logo appears in center of screen with scale & soft glow.
+   * 2. Smoothly morphs/translates into the exact position & scale of the navbar logo.
+   * 3. Overlay fades out into the page.
+   */
+  function triggerA1LogoMorph() {
+    if (isDestroyed) return;
+
+    // Fade out the last text scene
+    const currentSceneEl = stage.firstElementChild;
+    if (currentSceneEl) {
+      currentSceneEl.classList.remove('scene-fade-enter');
+      currentSceneEl.classList.add('scene-fade-exit');
+    }
+
+    setTimeout(() => {
+      if (isDestroyed) return;
+
+      // 1. Mount the central A1 Logo
+      stage.innerHTML = `
+        <div id="intro-morph-logo" class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white text-black font-extrabold flex items-center justify-center text-2xl sm:text-3xl shadow-2xl tracking-tight select-none will-change-transform z-50 opacity-0 scale-75 drop-shadow-[0_0_40px_rgba(255,255,255,0.7)]">
+          A1
+        </div>
+      `;
+
+      const morphLogo = stage.querySelector('#intro-morph-logo');
+      if (!morphLogo) {
+        cleanup();
+        return;
+      }
+
+      // Smoothly appear in center
+      morphLogo.style.transition = 'opacity 0.4s ease-out, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      requestAnimationFrame(() => {
+        morphLogo.classList.remove('opacity-0', 'scale-75');
+        morphLogo.classList.add('opacity-100', 'scale-100');
+      });
+
+      // 2. Pause momentarily (~450ms), then morph to target navbar logo
+      const morphTimeout = setTimeout(() => {
+        if (isDestroyed) return;
+
+        const targetLogo = document.getElementById('nav-brand-logo');
+        if (!targetLogo) {
+          cleanup();
+          return;
+        }
+
+        // Measure source and target rectangles
+        const targetRect = targetLogo.getBoundingClientRect();
+        const morphRect = morphLogo.getBoundingClientRect();
+
+        const deltaX = targetRect.left - morphRect.left;
+        const deltaY = targetRect.top - morphRect.top;
+        const scaleX = targetRect.width / morphRect.width;
+        const scaleY = targetRect.height / morphRect.height;
+        const targetBorderRadius = window.getComputedStyle(targetLogo).borderRadius || '8px';
+
+        // Set transform-origin to top-left for pixel-perfect scale & translation matching
+        morphLogo.style.transformOrigin = '0 0';
+
+        // Temporarily hide the real target logo underneath during the morph flight
+        targetLogo.style.opacity = '0';
+
+        // Animate the logo from center to the navbar logo coordinates
+        morphLogo.style.transition = 'transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.75s ease, box-shadow 0.75s ease, filter 0.5s ease';
+        morphLogo.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`;
+        morphLogo.style.borderRadius = targetBorderRadius;
+        morphLogo.style.boxShadow = 'none';
+        morphLogo.style.filter = 'none';
+
+        // Simultaneously fade out the black background overlay to reveal the page
+        overlay.style.transition = 'opacity 0.65s ease-out';
+        overlay.classList.remove('opacity-100');
+        overlay.classList.add('opacity-0');
+        overlay.style.pointerEvents = 'none';
+
+        // When morph finishes, make the real navbar logo visible and unmount overlay
+        setTimeout(() => {
+          targetLogo.style.opacity = '1';
+          overlay.remove();
+          onComplete();
+        }, 760);
+
+      }, 550);
+
+      activeTimeouts.push(morphTimeout);
+    }, currentSceneEl ? 260 : 0);
   }
 
   // Start sequence

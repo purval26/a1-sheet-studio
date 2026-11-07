@@ -15,7 +15,7 @@ export function renderNavbar(container, { state, onBackToLanding, onExportPdf, o
           </button>
           
           <div class="flex items-center gap-2 min-w-0">
-            <span class="w-6 h-6 rounded bg-[var(--accent)] text-[var(--accent-inverted)] font-extrabold flex items-center justify-center text-xs flex-shrink-0">A1</span>
+            <span id="nav-brand-logo" class="w-6 h-6 rounded bg-[var(--accent)] text-[var(--accent-inverted)] font-extrabold flex items-center justify-center text-xs flex-shrink-0">A1</span>
             <span class="font-semibold text-xs sm:text-sm tracking-tight text-[var(--text-main)] truncate">
               ${state.sheetTitle ? state.sheetTitle : 'Sheet Studio'}
             </span>

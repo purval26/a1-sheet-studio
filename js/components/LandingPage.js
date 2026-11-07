@@ -11,7 +11,7 @@ export function renderLandingPage(container, { onOpenStudio, onToggleTheme, them
       <header class="border-b border-[var(--border-subtle)] bg-[var(--bg-secondary)]/80 backdrop-blur-md sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--accent)] text-[var(--accent-inverted)] font-extrabold flex items-center justify-center text-xs sm:text-sm shadow-sm">
+            <div id="nav-brand-logo" class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[var(--accent)] text-[var(--accent-inverted)] font-extrabold flex items-center justify-center text-xs sm:text-sm shadow-sm">
               A1
             </div>
             <div>
